@@ -10,6 +10,7 @@ function App (props) {
   // React Hooks allows managing state in functional components post React 16.8
   // useState is a React Hook used for managing state in functional components
 
+  // Stateful / Container / Smart Component - best to have as less as possible, easier to maintain and manage
   const [ personsState, setPersonsState ] = useState( {
       persons: [ 
         { name: 'Shuvam', age: 25 }, 
@@ -24,12 +25,12 @@ function App (props) {
   const switchNameHandler = event => {
     console.log('Was clicked!', event.target);
     //this.state.persons[0].name=  'Max'; // DO NOT DO THIS, React does not accept this
-    // Does not merge it with existing state, therefore deletings otherState
+    // Does not merge it with existing state, therefore deleting otherState
     setPersonsState( {
       persons: [
-        { name: 'Shuvam', age: 26 }, 
-        { name: 'Neethu', age: 25 }, 
-        { name: 'Parth', age: 27 }, 
+        { name: 'Shuvam Nandi', age: 26 }, 
+        { name: 'Neethu Mohanan', age: 25 }, 
+        { name: 'Parth Satija', age: 27 }, 
       ]
   });
   }
@@ -40,11 +41,18 @@ function App (props) {
       <h2>Hello World!</h2>
       <p>This is really working!</p>
       <button onClick={switchNameHandler}>Switch Names</button>
-      <Person name={personsState.persons[0].name} age={personsState.persons[0].age}>
+      <Person 
+      name={personsState.persons[0].name} 
+      age={personsState.persons[0].age}
+      click={switchNameHandler}>
         My hobbies None
       </Person>
-      <Person name={personsState.persons[1].name} age={personsState.persons[1].age}/>
-      <Person name={personsState.persons[2].name} age={personsState.persons[2].age}/>
+      <Person 
+      name={personsState.persons[1].name} 
+      age={personsState.persons[1].age}/>
+      <Person 
+      name={personsState.persons[2].name} 
+      age={personsState.persons[2].age}/>
     </div>
   );
   }
