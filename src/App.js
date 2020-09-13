@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Person from './Person/Person';
 
 import './App.css';
 
-function App (props) {
+class App extends Component {
   // If the state changes, it will make React re-render our DOM
   // For now, we will use class to manage state
   
@@ -11,51 +11,85 @@ function App (props) {
   // useState is a React Hook used for managing state in functional components
 
   // Stateful / Container / Smart Component - best to have as less as possible, easier to maintain and manage
-  const [ personsState, setPersonsState ] = useState( {
-      persons: [ 
-        { name: 'Shuvam', age: 25 }, 
-        { name: 'Neethu', age: 24 }, 
-        { name: 'Parth', age: 26 }, 
-      ]
-    }
-  );
+  state = {
+    persons: [ 
+      { name: 'Shuvam', age: 25 }, 
+      { name: 'Neethu', age: 24 }, 
+      { name: 'Parth', age: 26 }, 
+    ],
+    otherState: 'Some value',
+    showPersons: false,
+  }
 
-  const [ otherState, setOtherState ] = useState( 'Some value' );
-
-  const switchNameHandler = event => {
-    console.log('Was clicked!', event.target);
-    //this.state.persons[0].name=  'Max'; // DO NOT DO THIS, React does not accept this
-    // Does not merge it with existing state, therefore deleting otherState
-    setPersonsState( {
+  switchNameHandler = newName => {
+    console.log('New name passed: ', newName);
+    // this.state.persons[0].name=  'Max'; // DO NOT DO THIS, React does not accept this
+    // Merges it with existing state, therefore retaining otherState
+    this.setState( {
       persons: [
-        { name: 'Shuvam Nandi', age: 26 }, 
+        { name: newName, age: 26 }, 
         { name: 'Neethu Mohanan', age: 25 }, 
         { name: 'Parth Satija', age: 27 }, 
       ]
-  });
+    });
   }
 
-  return (
-    <div className="App">
-      <h1>I am a React Application</h1>
-      <h2>Hello World!</h2>
-      <p>This is really working!</p>
-      <button onClick={switchNameHandler}>Switch Names</button>
-      <Person 
-      name={personsState.persons[0].name} 
-      age={personsState.persons[0].age}
-      click={switchNameHandler}>
-        My hobbies None
-      </Person>
-      <Person 
-      name={personsState.persons[1].name} 
-      age={personsState.persons[1].age}/>
-      <Person 
-      name={personsState.persons[2].name} 
-      age={personsState.persons[2].age}/>
-    </div>
-  );
+  nameChangeHandler = (event) => {
+    this.setState( {
+      persons: [
+        { name: 'Shuvam Nandi', age: 25 },
+        { name: event.target.value, age: 24 },
+        { name: 'Parth Satija', age: 26 },
+      ]
+    });
   }
+
+  togglePersonsHandler = (event) => {
+    const doesShow = this.state.showPersons;
+    this.setState( {
+      showPersons: !doesShow
+    });
+  }
+
+  render() {
+    const buttonStyle = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer',
+    }
+    return (
+      <div className="App">
+        <h1>I am a React Application</h1>
+        <h2>Hello World!</h2>
+        <p>This is really working!</p>
+        <button 
+          style={buttonStyle}
+          onClick={this.togglePersonsHandler}
+          >Show/Hide Names
+          </button>
+        {this.state.showPersons ? <div>
+          <Person 
+          name={this.state.persons[0].name} 
+          age={this.state.persons[0].age} 
+          click={()=> this.switchNameHandler('Needuuu!')}
+          nameChanged={this.nameChangeHandler}>
+            My hobbies None
+          </Person>
+          <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age}
+          nameChanged={this.nameChangeHandler}/>
+          <Person 
+          name={this.state.persons[2].name} 
+          age={this.state.persons[2].age}
+          nameChanged={this.nameChangeHandler}/>
+        </div>: null}
+      </div>
+    );
+  }
+}
   // return (
   //   <div className="App">
   //     <h1>I am a React Application</h1>
@@ -70,25 +104,3 @@ function App (props) {
   // );
 
 export default App;
-
-// state = {
-//   persons: [ 
-//     { name: 'Shuvam', age: 25 }, 
-//     { name: 'Neethu', age: 24 }, 
-//     { name: 'Parth', age: 26 }, 
-//   ],
-//   otherState: 'Some value'  
-// }
-
-// switchNameHandler = event => {
-//   console.log('Was clicked!', event.target);
-//   //this.state.persons[0].name=  'Max'; // DO NOT DO THIS, React does not accept this
-//   // Merges it with existing state, therefore retaining otherState
-//     this.setState( {
-//     persons: [
-//       { name: 'Shuvam', age: 26 }, 
-//       { name: 'Neethu', age: 25 }, 
-//       { name: 'Parth', age: 27 }, 
-//   ]
-// });
-// }

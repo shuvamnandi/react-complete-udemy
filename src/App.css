@@ -1,13 +1,3 @@
 .App {
   text-align: center;
 }
-
-.person {
-  margin: 10px;
-  border-width: 2px;
-  border-color: darkgoldenrod;
-  border-style: solid;
-  box-shadow: 1px darkgray;
-  width: 50%;
-  height: 100%;
-}
