@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 import './App.css';
 
@@ -54,12 +55,17 @@ class App extends Component {
   
   render() {
     const buttonStyle = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
-    }
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black',
+      }
+    };
 
     let persons = null;
 
@@ -76,20 +82,36 @@ class App extends Component {
           } ) }
         </div>
       );
+      buttonStyle.backgroundColor = 'red';
+      buttonStyle[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black',
+      }
+    }
+
+    const classes = []; // 'red bold'
+
+    if (this.state.persons.length <=2 ) {
+      classes.push('red'); // classes = ['red']
+    }
+    if (this.state.persons.length <=1 ) {
+      classes.push('bold'); // classes = ['red', 'bold']
     }
 
     return (
-      <div className="App">
-        <h1>I am a React Application</h1>
-        <h2>Hello World!</h2>
-        <p>This is really working!</p>
-        <button 
-          style={buttonStyle}
-          onClick={this.togglePersonsHandler}>
-          Toggle Persons
-        </button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>I am a React Application</h1>
+          <h2>Hello World!</h2>
+          <p className={classes.join(' ')}>This is really working!</p>
+          <button 
+            style={buttonStyle}
+            onClick={this.togglePersonsHandler}>
+            Toggle Persons
+          </button>
+          {persons}
+        </div>
+      </StyleRoot>
     );
   }
 }
@@ -106,4 +128,5 @@ class App extends Component {
   //   React.createElement('h2', null, 'Hello World!')
   // );
 
-export default App;
+  // Radium works with both functional and Class based components
+export default Radium(App);
